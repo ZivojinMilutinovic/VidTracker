@@ -1,0 +1,147 @@
+
+CREATE KEYSPACE "VidTracker" WITH replication = {'class':'SimpleStrategy', 'replication_factor': 1};
+
+
+CREATE TABLE "Pacijent" (
+	broj_knjizice int,
+	ime text,
+	prezime text,
+	godine int,
+	test_timestamp timestamp,
+	pozitivan boolean,
+	PRIMARY KEY(broj_knjizice,test_timestamp,pozitivan)
+	);
+	
+CREATE TABLE "Bolnica" (
+	bolnica_id int,
+	naziv text,
+	adresa text,
+	grad text,
+	broj_slobodnih_kreveta int,
+	broj_ljudi_na_respiratoru int,
+	broj_zarazenih_lekara int,
+	PRIMARY KEY((bolnica_id,grad))
+	);
+
+
+
+CREATE TABLE "Korisnik" (
+	username text,
+	password text,
+	rola_id text,
+	grad text,
+	id_radnog_mesta int,
+	PRIMARY KEY(username)
+	);
+	
+CREATE TABLE "Ambulanta" (
+	ambulanta_id int,
+	naziv text,
+	adresa text,
+	grad text,
+	dan date,
+	broj_testiranih int,
+	broj_pregledanih int,
+	broj_lekara int,
+	broj_pozitivnih int,
+	PRIMARY KEY((ambulanta_id,grad),dan,broj_testiranih,broj_pregledanih,broj_pozitivnih)
+	);
+	
+
+
+
+CREATE TABLE "AmbulantaTestovi" (
+    ambulanta_id int,
+    grad text,
+    pozitivan boolean,
+    test_timestamp timestamp,
+    PRIMARY KEY((ambulanta_id,grad), test_timestamp, pozitivan)
+    );
+	
+CREATE TABLE "Statistika" (
+	danasnje_mere text,
+	dan date,
+	broj_testiranih int,
+	broj_pregledanih int,
+	broj_pozitivnih int,
+	PRIMARY KEY(dan)
+	);
+	
+CREATE TABLE "Counter"(
+	vrsta_radnog_mesta text PRIMARY KEY,
+	id counter
+);	
+
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES('Petar','1234','Bolnicar',1,'Nis');
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES ('Aca','football','Laborant',1,'Nis');
+INSERT INTO "Korisnik" (username,password,rola_id,grad) VALUES ('Bane','admin','Admin','Nis');
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES ('Ljuba','love','Bolnicar',2,'Beograd');
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES('Neca','mobile','Laborant',2,'Beograd');
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES ('Mile','password','Bolnicar',3,'Novi Sad');
+INSERT INTO "Korisnik" (username,password,rola_id,id_radnog_mesta,grad) VALUES ('Sasa','airplane','Laborant',3,'Novi Sad');
+
+
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'BOLNICA';
+INSERT INTO "Bolnica" (bolnica_id,naziv,adresa,grad,broj_slobodnih_kreveta,broj_ljudi_na_respiratoru,broj_zarazenih_lekara) VALUES (1,'KCNIS','Popoica','Nis',123,23,43);
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'BOLNICA';
+INSERT INTO "Bolnica" (bolnica_id,naziv,adresa,grad,broj_slobodnih_kreveta,broj_ljudi_na_respiratoru,broj_zarazenih_lekara) VALUES (2,'VMA','Milutina Stankovica','Beograd',83,78,121);
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'BOLNICA';
+INSERT INTO "Bolnica" (bolnica_id,naziv,adresa,grad,broj_slobodnih_kreveta,broj_ljudi_na_respiratoru,broj_zarazenih_lekara) VALUES (3,'KCNoviSad','Popoica','Novi Sad',43,88,212);
+
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100000, 'Petar', 'Markovic', 67, '2021-01-08 19:00:00+0000', true);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100001, 'Aca', 'Milic', 75, '2021-01-08 19:01:00+0000', true);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100002, 'Mila', 'Dimitrijevic', 39, '2021-01-08 19:01:00+0000', false);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100003, 'Marko', 'Zivkovic', 75, '2021-01-09 19:01:00+0000', false);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100004, 'Petar', 'Petrovic', 43, '2021-01-09 19:01:00+0000', true);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100005, 'Milos', 'Stojanovic', 28, '2021-01-09 19:01:00+0000', false);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100006, 'Sasa', 'Mitic', 76, '2021-01-11 19:01:00+0000', true);    
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100007, 'Lena', 'Novakovic', 28, '2021-01-11 19:01:00+0000', true);
+INSERT INTO "Pacijent" (broj_knjizice, ime, prezime, godine, test_timestamp, pozitivan) 
+    VALUES (100008, 'Jovan', 'Peric', 48, '2021-01-11 19:01:00+0000', false);    
+
+ 
+
+
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'AMBULANTA';
+INSERT INTO "Ambulanta" (ambulanta_id, naziv, adresa, grad, dan, broj_testiranih, broj_pregledanih, broj_lekara, broj_pozitivnih)
+    VALUES (1, 'Ambulanta Nis', 'Bulevar Dr Zorana Djindjica 48', 'Nis', '2021-01-08', 3, 6, 2, 2);
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'AMBULANTA';
+INSERT INTO "Ambulanta" (ambulanta_id, naziv, adresa, grad, dan, broj_testiranih, broj_pregledanih, broj_lekara, broj_pozitivnih)
+    VALUES (2, 'Ambulanta Beograd', 'Ustanicka 30', 'Beograd', '2021-01-09', 3, 7, 3, 1);
+UPDATE "Counter" set id = id + 1 where vrsta_radnog_mesta = 'AMBULANTA';
+INSERT INTO "Ambulanta" (ambulanta_id, naziv, adresa, grad, dan, broj_testiranih, broj_pregledanih, broj_lekara, broj_pozitivnih)
+    VALUES (3, 'Ambulanta Novi Sad', 'Nikole Tesle 17', 'Novi Sad', '2021-01-11', 3, 5, 2, 2);
+
+ 
+
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (1, 'Nis', true, '2021-01-08 19:00:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (1, 'Nis', true, '2021-01-08 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (1, 'Nis', false, '2021-01-08 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (2, 'Beograd', false, '2021-01-09 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (2, 'Beograd', true, '2021-01-09 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (2, 'Beograd', false, '2021-01-09 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (3, 'Novi Sad', true, '2021-01-11 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (3, 'Novi Sad', true, '2021-01-11 19:01:00+0000');
+INSERT INTO "AmbulantaTestovi" (ambulanta_id, grad, pozitivan, test_timestamp)
+    VALUES (3, 'Novi Sad', false, '2021-01-11 19:01:00+0000');
+	
+INSERT INTO "Statistika" (danasnje_mere,dan,broj_testiranih,broj_pregledanih,broj_pozitivnih) values ('Nosite Maske','2021-01-11',9,18,5);
+
+
+

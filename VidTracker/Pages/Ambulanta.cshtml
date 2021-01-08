@@ -1,0 +1,86 @@
+﻿@page
+@model VidTracker.Pages.AmbulantaModel
+@{
+}
+@*<p class="lead">
+        @Model.Ambulanta.Grad, @Model.Ambulanta.Adresa @Model.Ambulanta.Naziv
+    </p>*@
+<h2 class="mb-3">
+    @Model.Ambulanta.Grad, @Model.Ambulanta.Adresa - @Model.Ambulanta.Naziv
+</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-6">
+        <label class="text-danger">@Model.ErrorMessage</label>
+        <label class="text-success">@Model.SuccessMessage</label>
+        <form class="form-group" method="post">
+            <input type="hidden" asp-for="Ambulanta.Grad" />
+            <input type="hidden" asp-for="Ambulanta.Ambulanta_id" />
+            <input type="hidden" asp-for="Ambulanta.Naziv" />
+            <div class="form-inline mb-2">
+                <label class="mr-4">Broj zdravstvene knjizice *</label>
+                <input class="form-control" asp-for="BrojZdravstvene">
+            </div>
+            <div class="form-inline mb-2">
+                <input placeholder="Ime" class="form-control mr-2" asp-for="Ime">
+                <input placeholder="Prezime" class="form-control" asp-for="Prezime">
+            </div>
+            <div class="form-inline mb-2">
+                <label>Godine</label>
+                <input placeholder="Godine" class="form-control ml-2" asp-for="Godine">
+            </div>
+            <div class="form-check mb-2 mr-2">
+                <input class="form-check-input" asp-for="Pozitivan">
+                <label class="form-check-label"> Pozitivan</label>
+            </div>
+            <button type="submit" asp-route-dan="@Model.Ambulanta.Dan" asp-route-id="@Model.Ambulanta.Ambulanta_id" asp-route-grad="@Model.Ambulanta.Grad" class="btn-sm btn-primary" asp-page-handler="pacijent">Dodaj testiranje u bazu</button>
+        </form>
+    </div>
+    <div class="col-6">
+        <form method="post">
+            <input type="hidden" asp-for="Ambulanta.Grad" />
+            <input type="hidden" asp-for="Ambulanta.Ambulanta_id" />
+            <h2>Podaci za @Model.Dan.Day/@Model.Dan.Month/@Model.Dan.Year</h2>
+            <div>
+                <label>Broj testiranih: @Model.BrojTestiranih</label>
+            </div>
+            <div>
+                <label>Broj pozitivnih: @Model.BrojPozitivnih</label>
+            </div>
+            <div>
+                <label>Broj pregledanih: @Model.BrojPregledanih</label>
+            </div>
+            <div class="mb-2">
+                <label>Broj lekara: @Model.BrojLekara</label>
+            </div>
+            <select asp-for="IzabranDan" asp-items="Model.ListaDana"></select>
+            <button type="submit" class="btn-sm btn-primary ml-2" asp-page-handler="osvezi">Osvezi podatke</button>
+        </form>
+        <hr />
+        <label>Izracunaj danasnje podatke</label>
+        <label class="text-danger">@Model.ErrorMessageZaRacunanje</label>
+        <form class="form-inline" method="post">
+            <input type="hidden" asp-for="Ambulanta.Grad" />
+            <input type="hidden" asp-for="Ambulanta.Ambulanta_id" />
+            <div class="form-inline">
+                <div class="form-group mb-2 mr-2">
+                    <label class="mr-1 mb-1">Broj lekara za danas</label>
+                    <input class="form-control" placeholder="Korisnicko ime" asp-for="BrojLekaraZaDanas">
+                </div>
+                <div class="form-group  mb-2 mr-2">
+                    <label class="mr-1">Broj pregledanih pacijenata za danas</label>
+                    <input class="form-control" placeholder="Sifra" asp-for="BrojPregledanihZaDanas">
+                </div>
+            </div>
+            <div class="form-group mb-2 mr-2">
+                <input type="text" class="form-control" placeholder="Korisnicko ime" asp-for="KorisnickoIme">
+            </div>
+            <div class="form-group  mb-2 mr-2">
+                <input type="password" class="form-control" placeholder="Sifra" asp-for="Sifra">
+            </div>
+            <button type="submit" asp-route-dan="@Model.Ambulanta.Dan" asp-route-id="@Model.Ambulanta.Ambulanta_id" asp-route-grad="@Model.Ambulanta.Grad" class="btn btn-primary mb-2" asp-page-handler="Izracunaj">Potvrdi</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@page "/{grad}/{radno_mesto}"
+@model VidTracker.Pages.BolnicaModel
+@{
+}
+
+<h1 class="text-center">@Model.Bolnica.Naziv</h1>
+<h2 class="mb-3">Informacije o bolnici</h2>
+<div class="row justify-content-between mb-3">
+    <h3>Grad:@Model.Bolnica.Grad</h3>
+    <h3>Adresa:@Model.Bolnica.Adresa</h3>
+</div>
+<div class="row justify-content-between mb-3">
+    <h3 >Broj ljudi na respiratoru:@Model.Bolnica.BrojLjudiNaRespiratoru</h3>
+    <h3>Broj slobodnih kreveta:@Model.Bolnica.BrojSlobodnihKreveta</h3>
+    <h3>Broj zarazenih lekara:@Model.Bolnica.BrojZarazenihLekara</h3>
+</div>
+
+
+
+<h3 mt-4>Azuriraj podatke o bolnici</h3>
+<form method="post">
+    <input type="hidden" asp-for="Bolnica.Grad" value="@Model.Bolnica.Grad" />
+    <input type="hidden" asp-for="Bolnica.BolnicaID" value="@Model.Bolnica.BolnicaID" />
+
+    <div class="form-group mb-2 col-6">
+        <label>Broj ljudi na respiratoru:</label>
+        <input type="number" class="form-control" asp-for="Bolnica.BrojLjudiNaRespiratoru">
+    </div>
+    <div class="form-group mb-2 col-6">
+        <label>Broj slobodnih kreveta:</label>
+        <input type="number" class="form-control" asp-for="Bolnica.BrojSlobodnihKreveta">
+    </div>
+    <div class="form-group mb-2 col-6">
+        <label>Broj zarazenih lekara:</label>
+        <input type="number" class="form-control" asp-for="Bolnica.BrojZarazenihLekara">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Azuriraj</button>
+    <div class="mb-2 text-danger">@Model.ErrorMessage</div>
+</form>
+
+<h4 class="mb-2">Informacije o drugim bonicama(ukoliko je potrebno prebacivanje pacijenta)</h4>
+<table class="table table-striped mt-5 mb-5">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Naziv</th>
+            <th scope="col">Grad</th>
+            <th scope="col">Br. ljudi na respiratoru</th>
+            <th scope="col">Br. slobodnih kreveta</th>
+            <th scope="col">Br. zarazenih lekara</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bolnica in Model.ListBolnica)
+        {
+            <tr>
+                <th scope="row">@bolnica.BolnicaID</th>
+                <td>@bolnica.Naziv</td>
+                <td>@bolnica.Grad</td>
+                <td>@bolnica.BrojLjudiNaRespiratoru</td>
+                <td>@bolnica.BrojSlobodnihKreveta</td>
+                <td>@bolnica.BrojZarazenihLekara</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+

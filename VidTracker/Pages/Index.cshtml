@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+    <div class="row mb-4">  
+        <form class="form-inline" method="post">
+            <div class="form-group mb-2 mr-2">
+                <input type="text"  class="form-control" placeholder="Korisnicko ime"  asp-for="Username">
+            </div>
+            <div class="form-group  mb-2 mr-2">
+                <input type="password" class="form-control"  placeholder="Sifra" asp-for="Password">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2" asp-page-handler="korisnik">Ulogujte se</button>
+            <div class="text-danger">@Model.ErrorMessageKorisnik</div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <h2 class="mb-5">Provera rezultata testa</h2>
+            <form method="post">
+                <div class="form-group mb-2">
+                    <label>Broj zdravstvene knjižice:</label>
+                    <input type="number" class="form-control" value="" asp-for="BrojKnjizice">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2" asp-page-handler="pacijent">Prikazi</button>
+            </form>
+            @if (Model.Pacijent.Godine != -1)
+            {
+                <div>
+                    @if (Model.Pacijent.BrojKnjizice == 0)
+                    {
+                        <div class="text-danger">Ne postoji pacijent sa ovom knjizicom</div>
+                    }
+                    else
+                    {
+                        <div class="text-black-50">Rezultat vaseg testa odradjenog na dan @Model.Pacijent.TestTimestamp.ToString("yyyy-MM-dd")
+                        je @Model.pozitivanTest(Model.Pacijent.Pozitivan).</div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="col-7 offset-1">
+            <h2 class="text-center mb-5">Statistika za dan:@Model.IzabraniDan.ToString("yyyy-MM-dd")</h2>
+            @if (Model.Statistika.Dan.Equals(new Cassandra.LocalDate(1960, 1, 1)))
+            {
+                <h4 class="mb-4">Nažalost,ne postoji statistika za izabrani dan</h4>
+            }
+            else
+            {
+                <h5 class="mb-2">Mere: @Model.Statistika.Danasnje_mere</h5>
+                <h5 class="mb-2"> Broj pregledanih: @Model.izracunajInt(Model.Statistika.BrojPregledanih)</h5>
+                <h5 class="mb-2"> Broj testirani: @Model.izracunajInt(Model.Statistika.BrojTestiranih)</h5>
+                <h5 class="mb-2"> Broj pozitivnih: @Model.izracunajInt(Model.Statistika.BrojPozitivnih)</h5>
+            }
+            <form method="post">
+                <div class="form-group mb-2">
+                    <label>Izaberite dan za koji zelite da prikazete statistiku:</label>
+                    <input type="date" class="form-control" asp-for="IzabraniDan" />
+                </div>
+                <button type="submit" class="btn btn-primary mb-2" asp-page-handler="statistika">Prikazi</button>
+            </form>
+        </div>
+    </div>
+

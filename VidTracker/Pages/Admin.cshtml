@@ -1,0 +1,106 @@
+﻿@page
+@model VidTracker.Pages.AdminModel
+@{
+
+}
+
+<form method="post">
+    <input type="text" class="form-control mr-1 mb-2" placeholder="Nove mere" asp-for="@Model.Mere" />
+    <button class="btn btn-primary" asp-page-handler="">Dodaj statistiku</button>
+    <label class="ml-2">@Model.Message</label>
+</form>
+
+<div class="row mt-4">
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Statistika po gradu</h1>
+        <form method="post">
+            <select class="col-7 mb-1" asp-for="@Model.IzabraniGrad">
+                <option value="" disabled selected>Izaberi grad</option>
+                @foreach (var grad in Model.Gradovi)
+                {
+                    <option value="@grad">@grad</option>
+                }
+            </select>
+            <button class="col-4 btn btn-danger mb-1" asp-page-handler="grad">Prikazi statistiku</button>
+            @if (Model.PrikaziGradStatistiku)
+            {
+                <label class="col-7" style="font-weight:bold">Grad:</label>
+                <label class="col-3">@Model.IzabraniGrad</label>
+                <label class="col-7" style="font-weight:bold">Ukupan broj pregledanih:</label>
+                <label class="col-3">@Model.GradStatistika[0]</label>
+                <label class="col-7" style="font-weight:bold">Ukupan broj testiranih:</label>
+                <label class="col-3">@Model.GradStatistika[1]</label>
+                <label class="col-7" style="font-weight:bold">Ukupan broj pozitivnih:</label>
+                <label class="col-3">@Model.GradStatistika[2]</label>
+                <label class="col-7" style="font-weight:bold">Broj pregledanih prethodnog dana:</label>
+                <label class="col-3">@Model.GradStatistika[3]</label>
+                <label class="col-7" style="font-weight:bold">Broj testiranih prethodnog dana:</label>
+                <label class="col-3">@Model.GradStatistika[4]</label>
+                <label class="col-7 mb-1" style="font-weight:bold">Broj pozitivnih prethodnog dana:</label>
+                <label class="col-3 mb-1">@Model.GradStatistika[5]</label>
+            }
+        </form>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Dodaj novu bolnicu</h1>
+        <form method="post">
+           
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Naziv" asp-for="@Model.Bolnica.Naziv" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Grad" asp-for="@Model.Bolnica.Grad" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Adresa" asp-for="@Model.Bolnica.Adresa" />
+            <button class="btn btn-success mt-2 mb-2" asp-page-handler="bolnica">Dodaj bolnicu</button>
+            <label class="ml-2">@Model.MessageBolnica</label>
+        </form>
+    </div>
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Dodaj novu ambulantu</h1>
+        <form method="post">
+          
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Naziv" asp-for="@Model.Ambulanta.Naziv" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Grad" asp-for="@Model.Ambulanta.Grad" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Adresa" asp-for="@Model.Ambulanta.Adresa" />
+            <button class="btn btn-success mt-2 mb-2" asp-page-handler="ambulanta">Dodaj ambulantu</button>
+            <label class="ml-2">@Model.MessageAmbulanta</label>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Dodaj novog bolnicara</h1>
+        <form method="post">
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Username" asp-for="@Model.Bolnicar.Username" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Password" asp-for="@Model.Bolnicar.Password" />
+            <input type="number" class="form-control mt-2 ml-1 mr-1" placeholder="ID radnog mesta" min="1" asp-for="@Model.Bolnicar.IdRadnogMesta" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Grad" asp-for="@Model.Bolnicar.Grad" />
+            <button class="btn btn-danger mt-2 mb-2" asp-page-handler="bolnicar">Dodaj bolnicara</button>
+            <label class="ml-2">@Model.MessageBolnicar</label>
+        </form>
+    </div>
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Dodaj novog laboranta</h1>
+        <form method="post">
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Username" asp-for="@Model.Laborant.Username" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Password" asp-for="@Model.Laborant.Password" />
+            <input type="number" class="form-control mt-2 ml-1 mr-1" placeholder="ID radnog mesta" min="1" asp-for="@Model.Laborant.IdRadnogMesta" />
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Grad" asp-for="@Model.Laborant.Grad" />
+            <button class="btn btn-danger mt-2 mb-2" asp-page-handler="laborant">Dodaj laboranta</button>
+            <label class="ml-2">@Model.MessageLaborant</label>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6" style="border:1px solid gainsboro;">
+        <h1 class="mt-2">Obrisi bolnicara/laboranta</h1>
+        <form method="post">
+            <input type="text" class="form-control mt-2 ml-1 mr-1" placeholder="Username" asp-for="@Model.UsernameZaBrisanje" />
+            <button class="btn btn-danger mt-2 mb-2" asp-page-handler="obrisi">Obrisi</button>
+            <label class="ml-2">@Model.MessageBrisanje</label>
+        </form>
+    </div>
+</div>
