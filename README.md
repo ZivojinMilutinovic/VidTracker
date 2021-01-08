@@ -8,5 +8,6 @@ prikaz podataka po gradu i postavljanje mere.
  
  Projekat je radjen u .NET Core(Razor pages), za pokretanje projekta potrebno je izbildovati projekat na lokalnoj masini uz 
  pokrenut server cassandre.Mozete pogledati statistiku tako sto izaberete 11 januar za 2021 godinu na Index strani.
+ U master grani se nalazi projekat.s
  
  
