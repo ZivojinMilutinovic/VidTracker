@@ -46,8 +46,9 @@ namespace VidTracker.Pages
         }
         public IActionResult OnPostPacijent()
         {
-            Statistika = DataProvider.GetStatistika(LocalDate.Parse(DateTime.Today.ToString("yyyy-MM-dd")));
+            Statistika = DataProvider.GetStatistika(LocalDate.Parse(IzabraniDan.ToString("yyyy-MM-dd")));
             Pacijent = DataProvider.GetPacijent(BrojKnjizice);
+            
             return Page();
         }
         public IActionResult OnPostKorisnik()
@@ -78,7 +79,9 @@ namespace VidTracker.Pages
         }
         public IActionResult OnPostStatistika()
         {
+            
             Statistika = DataProvider.GetStatistika(LocalDate.Parse(IzabraniDan.ToString("yyyy-MM-dd")));
+            
             Pacijent.Godine = -1;
             return Page();
         }

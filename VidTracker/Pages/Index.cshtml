@@ -18,12 +18,13 @@
         </form>
     </div>
     <div class="row">
-        <div class="col-4">
-            <h2 class="mb-5">Provera rezultata testa</h2>
+        <div class="col-4 pt-1" >
+            <h2 class="mb-2">Provera rezultata testa</h2>
             <form method="post">
                 <div class="form-group mb-2">
                     <label>Broj zdravstvene knjižice:</label>
                     <input type="number" class="form-control" value="" asp-for="BrojKnjizice">
+                    <input type="hidden" asp-for="@Model.IzabraniDan" value="@Model.IzabraniDan" />
                 </div>
                 <button type="submit" class="btn btn-primary mb-2" asp-page-handler="pacijent">Prikazi</button>
             </form>
@@ -42,19 +43,9 @@
                 </div>
             }
         </div>
-        <div class="col-7 offset-1">
-            <h2 class="text-center mb-5">Statistika za dan:@Model.IzabraniDan.ToString("yyyy-MM-dd")</h2>
-            @if (Model.Statistika.Dan.Equals(new Cassandra.LocalDate(1960, 1, 1)))
-            {
-                <h4 class="mb-4">Nažalost,ne postoji statistika za izabrani dan</h4>
-            }
-            else
-            {
-                <h5 class="mb-2">Mere: @Model.Statistika.Danasnje_mere</h5>
-                <h5 class="mb-2"> Broj pregledanih: @Model.izracunajInt(Model.Statistika.BrojPregledanih)</h5>
-                <h5 class="mb-2"> Broj testirani: @Model.izracunajInt(Model.Statistika.BrojTestiranih)</h5>
-                <h5 class="mb-2"> Broj pozitivnih: @Model.izracunajInt(Model.Statistika.BrojPozitivnih)</h5>
-            }
+        <div class="row col-7 offset-1 pt-1" style="border:1px solid gainsboro;">
+            <h2 class="text-center mb-2">Statistika za dan: @Model.IzabraniDan.ToString("yyyy-MM-dd")</h2>
+
             <form method="post">
                 <div class="form-group mb-2">
                     <label>Izaberite dan za koji zelite da prikazete statistiku:</label>
@@ -62,6 +53,23 @@
                 </div>
                 <button type="submit" class="btn btn-primary mb-2" asp-page-handler="statistika">Prikazi</button>
             </form>
+            @if (Model.Statistika.Dan.Equals(new Cassandra.LocalDate(1960, 1, 1)))
+            {
+                <h4 class="mb-4">Nažalost, ne postoji statistika za izabrani dan</h4>
+            } 
+            else
+            {
+                <div style="font-size:20px;">
+                    <label class="col-12" style="font-weight:bold">Mere:</label>
+                    <label class="col-12">@Model.Statistika.Danasnje_mere</label>
+                    <label class="col-12" style="font-weight:bold">Broj pregledanih:</label>
+                    <label class="col-12">@Model.izracunajInt(Model.Statistika.BrojPregledanih)</label>
+                    <label class="col-12" style="font-weight:bold">Broj testiranih:</label>
+                    <label class="col-12">@Model.izracunajInt(Model.Statistika.BrojTestiranih)</label>
+                    <label class="col-12" style="font-weight:bold">Broj pozitivnih:</label>
+                    <label class="col-12">@Model.izracunajInt(Model.Statistika.BrojPozitivnih)</label>
+                </div> 
+            }
         </div>
     </div>
 

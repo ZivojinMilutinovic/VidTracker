@@ -2,19 +2,17 @@
 @model VidTracker.Pages.BolnicaModel
 @{
 }
+<h2 class="mb-3">
+    @Model.Bolnica.Grad, @Model.Bolnica.Adresa - @Model.Bolnica.Naziv
+</h2>
 
-<h1 class="text-center">@Model.Bolnica.Naziv</h1>
-<h2 class="mb-3">Informacije o bolnici</h2>
-<div class="row justify-content-between mb-3">
-    <h3>Grad:@Model.Bolnica.Grad</h3>
-    <h3>Adresa:@Model.Bolnica.Adresa</h3>
-</div>
-<div class="row justify-content-between mb-3">
-    <h3 >Broj ljudi na respiratoru:@Model.Bolnica.BrojLjudiNaRespiratoru</h3>
-    <h3>Broj slobodnih kreveta:@Model.Bolnica.BrojSlobodnihKreveta</h3>
-    <h3>Broj zarazenih lekara:@Model.Bolnica.BrojZarazenihLekara</h3>
+<div class="row justify-content-between ml-2 mr-2 mb-3">
+    <h5>Broj ljudi na respiratoru: @Model.Bolnica.BrojLjudiNaRespiratoru</h5>
+    <h5>Broj slobodnih kreveta: @Model.Bolnica.BrojSlobodnihKreveta</h5>
+    <h5>Broj zarazenih lekara: @Model.Bolnica.BrojZarazenihLekara</h5>
 </div>
 
+<hr />
 
 
 <h3 mt-4>Azuriraj podatke o bolnici</h3>
@@ -38,7 +36,7 @@
     <div class="mb-2 text-danger">@Model.ErrorMessage</div>
 </form>
 
-<h4 class="mb-2">Informacije o drugim bonicama(ukoliko je potrebno prebacivanje pacijenta)</h4>
+<h4 class="mb-2">Informacije o drugim bonicama (ukoliko je potrebno prebacivanje pacijenta)</h4>
 <table class="table table-striped mt-5 mb-5">
     <thead>
         <tr>
